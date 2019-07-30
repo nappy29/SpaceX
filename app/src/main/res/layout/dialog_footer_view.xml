@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F8F8F8">
+
+        <View
+            android:id="@+id/dialog_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/dialog_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_view"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="It would be great if you could share with us a nickname"/>
+
+        <EditText
+            android:id="@+id/dialog_edtxt"
+            android:layout_below="@+id/dialog_txt"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="15dp"
+            android:ems="3"
+            android:backgroundTint="@color/colorAccent"
+            android:textCursorDrawable="@color/colorAccent"
+            android:inputType="textMultiLine" />
+
+        <com.crowdfire.cfalertdialog.views.CFPushButton
+            android:id="@+id/dialog_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textColor="#FFFFFF"
+            android:text="Tweet"
+            android:textSize="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/dialog_edtxt"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/footer_drwable" />
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SpaceRocketX</string>
+    <string name="loading_projects">Loading RocketList</string>
+    <string name="spacex_rockets">SpaceX Rocket Lists</string>
+    <string name="engine_count">Number of Engines:   </string>
+    <string name="country">Country of Origin:   </string>
+    <string name="graphtitle">Number of Launches per Year</string>
+</resources>

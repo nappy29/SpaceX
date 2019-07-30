@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="rocket_header1">16sp</dimen>
+    <dimen name="rocket_header2">20sp</dimen>
+    <dimen name="item_horizontal_margin">8dp</dimen>
+    <dimen name="rocket_text">14sp</dimen>
+    <dimen name="rocket_text_sm">11sp</dimen>
+
+</resources>

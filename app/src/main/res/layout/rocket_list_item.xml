@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="rocket" type="com.example.spacex.data.model.others.Rocket"/>
+        <variable name="callback" type="com.example.spacex.view.callback.RocketClickCallback"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/item_horizontal_margin"
+        android:layout_marginEnd="@dimen/item_horizontal_margin"
+        android:elevation="18dp"
+        android:onClick="@{() -> callback.onClick(rocket)}"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_marginStart="@dimen/item_horizontal_margin"
+            android:layout_marginEnd="@dimen/item_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rocket_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primarytext"
+                android:textSize="@dimen/rocket_header1"
+                android:text="@{rocket.rocketName}"/>
+
+            <TextView
+                android:id="@+id/rocket_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondartText"
+                android:layout_below="@+id/rocket_name"
+                android:textSize="@dimen/rocket_text"
+                android:text="@{rocket.rocketCountry}"/>
+
+            <TextView
+                android:id="@+id/rocket_engine_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rocket_country"
+                android:textColor="@color/secondartText"
+                android:textSize="@dimen/rocket_text_sm"
+                android:textStyle="italic"
+                android:text="@{String.format(@string/engine_count + rocket.rocketEngineNumber)}"/>
+
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/transit_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:transitionName="shared_image"
+                app:placeholderImageScaleType="fitCenter"
+                app:placeholderImage="@drawable/default_icon"
+                android:layout_margin="12dp"
+                app:imgUrl="@{rocket.getRocketImageUrl()}" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

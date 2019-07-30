@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="isLoading" type="Boolean"/>
+        <variable name="vm" type="com.example.spacex.view.ui.rocketdetails.RocketViewModel"/>
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@color/bgDefault">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:background="@color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsibleToolbar"
+                app:title="@{vm.rocket.rocketName}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fitsSystemWindows="true">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    app:imgUrl="@{vm.rocket.getRocketImageUrl()}"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:transitionName="shared_image"
+                    android:layout_gravity="center"
+                    app:layout_collapseMode="parallax"/>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/graph_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="@dimen/rocket_text"
+                    android:text="@string/graphtitle"
+                    android:layout_centerHorizontal="true"
+                    app:visibleGone="@{!isLoading}"/>
+
+
+                <org.eazegraph.lib.charts.ValueLineChart
+                    android:id="@+id/linechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:egUseCubic="true"
+                    app:egXAxisStroke="5dp"
+                    app:egUseOverlapFill="true"
+                    app:egCurveSmoothness="0.4"
+                    android:layout_marginTop="40dp"
+                    app:egIndicatorLineColor="#FE6DA8"
+                    app:egLegendHeight="40dp"
+                    app:egShowStandardValue="true"
+                    android:visibility="gone"/>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="2dp"
+                    app:cardCornerRadius="3dp"
+                    android:layout_below="@+id/linechart"
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardUseCompatPadding="true"
+                    android:layout_margin="5dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/rocket_country"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:textSize="@dimen/rocket_text"
+                            android:textStyle="italic|bold"
+                            android:text="@{String.format(@string/country + vm.rocket.rocketCountry)}"/>
+
+                        <TextView
+                            android:id="@+id/rocket_engine_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/rocket_country"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:textStyle="italic"
+                            android:textSize="10dp"
+                            android:text="@{String.format(@string/engine_count + vm.rocket.getRocketEngineNumber())}"/>
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@id/rocket_engine_count"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/dividecolor"/>
+
+
+                        <TextView
+                            android:id="@+id/rocket_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:textSize="@dimen/rocket_text"
+                            android:textStyle="italic"
+                            android:padding="12dp"
+                            android:layout_below="@id/line"
+                            android:text="@{vm.rocket.rocketDescription}"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/launch_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="LinearLayoutManager"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/card" />
+
+
+                <TextView
+                    android:id="@+id/no_results_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="@dimen/rocket_text"
+                    android:textColor="@color/colorAccent"
+                    android:layout_centerHorizontal="true"
+                    android:padding="12dp"
+                    android:visibility="gone"
+                    android:layout_below="@+id/launch_list"
+                    android:text="There are no Launches Registered for this rocket"/>
+
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:visibleGone="@{isLoading}"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

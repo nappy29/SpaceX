@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.spacex"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField("String", "BASE_URL", "\"https://api.spacexdata.com/v3\"")
+
+        }
+
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.spacexdata.com/v3\"")
+        }
+    }
+
+    // enable data binding for app here
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+
+dependencies {
+    final SUPPORT_LIBRARY_VERSION = '28.0.0-alpha3'
+    final ARCHITECTURE_COMPONENT_VERSION = '1.1.1'
+    final GsonVersion = '2.8.2'
+    final DAGGER_VERSION = '2.15'
+    final rx2FastAndroidNetworking = '1.0.2'
+    final ROOM_VERSION = '1.1.1'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Android Support Library dependecies
+    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+
+    // Unit test dependencies
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // RxJava / RxAndroid
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$DAGGER_VERSION"
+    implementation "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
+    annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+
+    // Android Architecture Components
+    implementation "android.arch.lifecycle:extensions:$ARCHITECTURE_COMPONENT_VERSION"
+    implementation "android.arch.lifecycle:common-java8:$ARCHITECTURE_COMPONENT_VERSION"
+    implementation "android.arch.lifecycle:reactivestreams:$ARCHITECTURE_COMPONENT_VERSION"
+
+    // Room SQLite for data persistence
+    implementation "android.arch.persistence.room:runtime:$ROOM_VERSION"
+    annotationProcessor "android.arch.persistence.room:compiler:$ROOM_VERSION"
+
+
+    // optional - RxJava support for Room
+    implementation "android.arch.persistence.room:rxjava2:$ROOM_VERSION"
+
+    // parser
+    implementation "com.google.code.gson:gson:$GsonVersion"
+
+   // network
+    implementation "com.amitshekhar.android:rx2-android-networking:$rx2FastAndroidNetworking"
+
+    implementation 'com.facebook.fresco:fresco:1.13.0'
+    implementation "com.facebook.fresco:imagepipeline-okhttp3:1.3.0"
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.github.blackfizz:eazegraph:1.2.2@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
+
+    implementation 'com.saber:stickyheader:1.0'
+
+    implementation 'com.crowdfire.cfalertdialog:cfalertdialog:1.1.0'
+
+
+    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    testImplementation 'org.mockito:mockito-core:2.7.6'
+}
