@@ -98,6 +98,8 @@ dependencies {
 
     implementation 'com.crowdfire.cfalertdialog:cfalertdialog:1.1.0'
 
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
 
     androidTestImplementation 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

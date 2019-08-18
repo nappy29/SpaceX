@@ -56,8 +56,6 @@ public class LaunchAdapter extends StickHeaderRecyclerView<Launch, HeaderDataImp
     @Override
     public void bindHeaderData(View header, int headerPosition) {
 
-        /*TextView tv = header.findViewById(R.id.tvHeader);
-        tv.setText(String.valueOf(headerPosition / 5));*/
     }
 
     class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -71,7 +69,6 @@ public class LaunchAdapter extends StickHeaderRecyclerView<Launch, HeaderDataImp
 
         void bindData(int position) {
 
-//            Log.d("Item position", String.valueOf(arrayofyears.length));
             binding.headerText.setText(arrayofyears[count++]);
         }
     }

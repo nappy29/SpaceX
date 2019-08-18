@@ -15,7 +15,9 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:collapseIcon="@drawable/back_arrow"
             app:layout_collapseMode="pin"/>
 
         <LinearLayout

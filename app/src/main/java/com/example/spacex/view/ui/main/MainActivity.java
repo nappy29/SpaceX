@@ -9,14 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.crowdfire.cfalertdialog.CFAlertDialog;
 import com.example.spacex.R;
 import com.example.spacex.data.local.pref.PreferenceHelper;
 import com.example.spacex.data.model.others.Rocket;
-import com.example.spacex.remote.ApiHelperInterface;
 import com.example.spacex.util.DetailsTransition;
 import com.example.spacex.view.adapter.FooterView;
 import com.example.spacex.view.ui.rocketdetails.RocketDetailsFragment;
@@ -53,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     .add(R.id.fragment_container, rocketListFragment, RocketListFragment.TAG).commit();
         }
 
-        mTopToolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(mTopToolbar);
+//        mTopToolbar = findViewById(R.id.toolBar);
+//        setSupportActionBar(mTopToolbar);
 
         // Verify is User is firs time User
         if (preferenceHelper.getIsNew()){
@@ -71,14 +69,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                         preferenceHelper.setIsNew(false);
                         dialog.dismiss();
                     });
-
-//            findViewById(R.id.dialog_btn).setOnClickListener(view -> {
-//                EditText edit = findViewById(R.id.dialog_edtxt);
-//                String nickname_text = edit.getText().toString();
-//
-//                Toast.makeText(this, "Welcome " + nickname_text + ", Please be kind to reach out to us anytime", Toast.LENGTH_SHORT).show();
-//                preferenceHelper.setIsNew(true);
-//            });
 
             builder.show();
         }
@@ -97,14 +87,14 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .addToBackStack("rocket")
+                    .addToBackStack(null)
                     .addSharedElement(image,"shared_image")
                     .add(R.id.fragment_container,
                             rocketFragment, null).commit();
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .addToBackStack("rocket")
+                    .addToBackStack(null)
                     .add(R.id.fragment_container,
                             rocketFragment, null).commit();
         }

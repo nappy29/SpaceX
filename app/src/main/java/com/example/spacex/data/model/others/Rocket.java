@@ -33,6 +33,10 @@ public class Rocket implements Serializable {
     @SerializedName("description")
     public String rocketDescription;
 
+    @Expose
+    @SerializedName("active")
+    public Boolean rocketActive;
+
 
     @Expose
     @SerializedName("flickr_images")
@@ -64,5 +68,9 @@ public class Rocket implements Serializable {
 
     public String getRocketImageUrl() {
         return rocketImageUrl.get(0);
+    }
+
+    public Boolean getRocketActive() {
+        return rocketActive;
     }
 }

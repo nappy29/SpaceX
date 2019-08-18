@@ -5,4 +5,5 @@
     <string name="engine_count">Number of Engines:   </string>
     <string name="country">Country of Origin:   </string>
     <string name="graphtitle">Number of Launches per Year</string>
+    <string name="action_search">Search</string>
 </resources>

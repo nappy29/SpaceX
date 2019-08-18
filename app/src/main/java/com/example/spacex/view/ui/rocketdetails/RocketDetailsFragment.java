@@ -7,9 +7,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,10 +29,6 @@ import com.example.spacex.view.adapter.HeaderDataImpl;
 import com.example.spacex.view.adapter.LaunchAdapter;
 import com.saber.stickyheader.stickyView.StickHeaderItemDecoration;
 
-import org.eazegraph.lib.models.ValueLinePoint;
-import org.eazegraph.lib.models.ValueLineSeries;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -69,6 +70,8 @@ public class RocketDetailsFragment extends Fragment implements Injectable {
     public void onCreate(@Nullable Bundle savedInstanceState){
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         rocketViewModel = ViewModelProviders.of(this, viewModelFactory).get(RocketViewModel.class);
 
@@ -155,6 +158,13 @@ public class RocketDetailsFragment extends Fragment implements Injectable {
         binding.collapsibleToolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
         binding.toolBar.setNavigationOnClickListener(view -> getActivity().onBackPressed());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+
     }
 
 }

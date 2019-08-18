@@ -5,20 +5,26 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.example.spacex.R;
 import com.example.spacex.data.model.others.Rocket;
 import com.example.spacex.databinding.RocketListItemBinding;
 import com.example.spacex.view.callback.RocketClickCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketViewHolder> {
+public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketViewHolder> implements Filterable {
 
     List<? extends Rocket> rocketList;
+
+    private List<Rocket> itemsFiltered;
 
     @Nullable
     private final RocketClickCallback rocketClickCallback;
@@ -30,6 +36,7 @@ public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketView
     public void setRocketList(final List<? extends Rocket> rocketList) {
         if (this.rocketList == null) {
             this.rocketList = rocketList;
+            this.itemsFiltered = (List<Rocket>) rocketList;
             notifyItemRangeInserted(0, rocketList.size());
         } else {
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
@@ -80,13 +87,52 @@ public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketView
 //        rocketViewHolder.binding.setRocket(rocketList.get(position));
 //        rocketViewHolder.binding.executePendingBindings();
 
-          rocketViewHolder.bind(rocketList.get(position));
+          rocketViewHolder.bind(itemsFiltered.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return rocketList == null ? 0 : rocketList.size();
+        return itemsFiltered == null ? 0 : itemsFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String query = charSequence.toString();
+
+                List<Rocket> filtered = new ArrayList<>();
+
+                if (query.isEmpty()) {
+                    filtered = (List<Rocket>) rocketList;
+                } else {
+                    for (Rocket rocket : rocketList) {
+                        if (rocket.getRocketName().toLowerCase().contains(query.toLowerCase())) {
+                            Log.d("Filtered Rocket", rocket.getRocketName());
+                            filtered.add(rocket);
+                        }
+
+                        if(query.equalsIgnoreCase("active") && rocket.getRocketActive()){
+                            Log.d("Filtered Rocket", "Active status " + rocket.getRocketActive() + "Namee " + rocket.getRocketName());
+                            filtered.add(rocket);
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.count = filtered.size();
+                results.values = filtered;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results) {
+                itemsFiltered = (List<Rocket>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     static class RocketViewHolder extends RecyclerView.ViewHolder {

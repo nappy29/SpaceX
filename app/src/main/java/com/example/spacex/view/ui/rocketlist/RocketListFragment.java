@@ -5,13 +5,20 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.spacex.R;
 import com.example.spacex.data.model.others.Rocket;
@@ -29,7 +36,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
-public class RocketListFragment extends Fragment implements Injectable {
+public class RocketListFragment extends Fragment implements Injectable, SearchView.OnQueryTextListener {
 
     public static final String TAG = "RocketListFragment";
 
@@ -49,12 +56,6 @@ public class RocketListFragment extends Fragment implements Injectable {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        AndroidSupportInjection.inject(this);
-//        super.onCreate(savedInstanceState);
-//
-//    }
 
     @Nullable
     @Override
@@ -63,7 +64,6 @@ public class RocketListFragment extends Fragment implements Injectable {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rocket_list, container, false);
 
         rocketAdapter = new RocketAdapter(rocketClickCallback);
-//        binding.rocketList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rocketList.setAdapter(rocketAdapter);
         binding.setIsLoading(true);
 
@@ -74,7 +74,7 @@ public class RocketListFragment extends Fragment implements Injectable {
     public void onCreate(@Nullable Bundle savedInstanceState){
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(RocketListViewModel.class);
 
         rocketListObservable = viewModel.fetchRocketList(apiHelperInterface, schedulerProvider, getActivity());
@@ -84,6 +84,9 @@ public class RocketListFragment extends Fragment implements Injectable {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
+        setUpToolbar();
 
         binding.imgBut.setOnClickListener(view -> {
             binding.setIsLoading(true);
@@ -130,4 +133,58 @@ public class RocketListFragment extends Fragment implements Injectable {
         }
     };
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_menu, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setQueryHint("Search: Active");
+        searchView.setOnQueryTextListener(this);
+
+        item.setOnActionExpandListener( new MenuItem.OnActionExpandListener() {
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Do something when collapsed
+                return true; // Return true to collapse action view
+
+            }
+        });
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+        onQueryTextChange("");
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        rocketAdapter.getFilter().filter(query);
+        Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        rocketAdapter.getFilter().filter(newText);
+//        Toast.makeText(getContext(), newText, Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    public void setUpToolbar(){
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(binding.toolBar);
+        getActivity().setTitle("SpaceX Rock");
+        binding.toolBar.setTitleTextColor(Color.parseColor("#ffffff"));
+    }
 }
